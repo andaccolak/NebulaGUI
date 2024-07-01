@@ -6,7 +6,7 @@
         xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" 
         xmlns:local="clr-namespace:NebulaGUI" xmlns:vm="clr-namespace:NebulaGUI.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="1080" Width="1920">
     <Window.Resources>
         <!-- ViewModel instance'larını oluşturmak için Resource tanımları -->
         <vm:MainViewModel x:Key="vm1"/>
@@ -18,53 +18,77 @@
     </Window.DataContext>
 
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="161*"/>
-            <RowDefinition Height="159*"/>
-            <RowDefinition Height="164*"/>
-        </Grid.RowDefinitions>
+    <Grid Background="#22468B">
+        <Border Background="#455679" Margin="500,16,956,688" Width="464" Height="360" BorderBrush="Black" BorderThickness="5">
+            <charts:CartesianChart  Zoom="X" DataContext="{StaticResource vm1}" Height="264" DisableAnimations="True" Series="{Binding TemperatureSeries}" LegendLocation="Bottom" Margin="1,77,1,5"/>
 
-        
+        </Border>
 
-        <charts:CartesianChart  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding AltitudeSeries}" LegendLocation="Bottom" Margin="443,16,120,10" Grid.Row="2"/>
+        <ListView ItemsSource="{Binding AllDatasReversed}" Margin="500,756,7,24" Width="1413">
 
-        <charts:CartesianChart  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding TemperatureSeries}" LegendLocation="Bottom" Margin="380,17,174,16" Grid.Row="1"/>
-        <charts:CartesianChart  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding VoltageSeries}" LegendLocation="Bottom" Margin="26,5,530,15" Grid.Row="1"/>
-        <charts:CartesianChart  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding SpeedSeries}" LegendLocation="Bottom" Margin="779,93,22,22" Grid.Row="1" Grid.RowSpan="2">
-        </charts:CartesianChart>
-        <charts:CartesianChart  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding PressureSeries}" LegendLocation="Bottom" Margin="47,5,471,15" Grid.Row="2">
-        </charts:CartesianChart>
-
-
-        <ListView ItemsSource="{Binding AllDatasReversed}" >
             <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="PaketNo" DisplayMemberBinding="{Binding  PaketNo}"/>
-                    <GridViewColumn Header="UyduStatusu" DisplayMemberBinding="{Binding  UyduStatusu}"/>
-                    <GridViewColumn Header="HataKodu" DisplayMemberBinding="{Binding HataKodu}"/>
-                    <GridViewColumn Header="GondermeSaati" DisplayMemberBinding="{Binding GondermeSaati}"/>
-                    <GridViewColumn Header="Basinc1" DisplayMemberBinding="{Binding Basinc1}"/>
-                    <GridViewColumn Header="Basinc2" DisplayMemberBinding="{Binding Basinc2}"/>
-                    <GridViewColumn Header="Yukseklik1" DisplayMemberBinding="{Binding Yukseklik1}"/>
-                    <GridViewColumn Header="Yukseklik2" DisplayMemberBinding="{Binding Yukseklik2}"/>
-                    <GridViewColumn Header="IrtifaFarki" DisplayMemberBinding="{Binding IrtifaFarki}"/>
-                    <GridViewColumn Header="InişHizi" DisplayMemberBinding="{Binding InişHizi}"/>
-                    <GridViewColumn Header="Sicaklik" DisplayMemberBinding="{Binding Sicaklik}"/>
-                    <GridViewColumn Header="PilGerilimi" DisplayMemberBinding="{Binding PilGerilimi}"/>
-                    <GridViewColumn Header="GpsLatitude" DisplayMemberBinding="{Binding GpsLatitude}"/>
-                    <GridViewColumn Header="GpsLongitude" DisplayMemberBinding="{Binding GpsLongitude}"/>
-                    <GridViewColumn Header="GpsAltitude" DisplayMemberBinding="{Binding GpsAltitude}"/>
-                    <GridViewColumn Header="Pitch" DisplayMemberBinding="{Binding Pitch}"/>
-                    <GridViewColumn Header="Roll" DisplayMemberBinding="{Binding Roll}"/>
-                    <GridViewColumn Header="Yaw" DisplayMemberBinding="{Binding Yaw}"/>
-                    <GridViewColumn Header="RHRH" DisplayMemberBinding="{Binding RHRH}"/>
-                    <GridViewColumn Header="IoTData" DisplayMemberBinding="{Binding IoTData}"/>
-                    <GridViewColumn Header="Takımno" DisplayMemberBinding="{Binding TakimNo}"/>
+                <GridView >
+                    <GridViewColumn Width="66" Header="PaketNo" DisplayMemberBinding="{Binding  PaketNo}"/>
+                    <GridViewColumn Width="66" Header="UyduStatusu" DisplayMemberBinding="{Binding  UyduStatusu}"/>
+                    <GridViewColumn Width="66" Header="HataKodu" DisplayMemberBinding="{Binding HataKodu}"/>
+                    <GridViewColumn Width="66" Header="GondermeSaati" DisplayMemberBinding="{Binding GondermeSaati}"/>
+                    <GridViewColumn Width="66" Header="Basinc1" DisplayMemberBinding="{Binding Basinc1}"/>
+                    <GridViewColumn Width="66" Header="Basinc2" DisplayMemberBinding="{Binding Basinc2}"/>
+                    <GridViewColumn Width="66" Header="Yukseklik1" DisplayMemberBinding="{Binding Yukseklik1}"/>
+                    <GridViewColumn Width="66" Header="Yukseklik2" DisplayMemberBinding="{Binding Yukseklik2}"/>
+                    <GridViewColumn Width="66" Header="IrtifaFarki" DisplayMemberBinding="{Binding IrtifaFarki}"/>
+                    <GridViewColumn Width="66" Header="InişHizi" DisplayMemberBinding="{Binding InisHizi}"/>
+                    <GridViewColumn Width="66" Header="Sicaklik" DisplayMemberBinding="{Binding Sicaklik}"/>
+                    <GridViewColumn Width="66" Header="PilGerilimi" DisplayMemberBinding="{Binding PilGerilimi}"/>
+                    <GridViewColumn Width="66" Header="GpsLatitude" DisplayMemberBinding="{Binding GpsLatitude}"/>
+                    <GridViewColumn Width="66" Header="GpsLongitude" DisplayMemberBinding="{Binding GpsLongitude}"/>
+                    <GridViewColumn Width="66" Header="GpsAltitude" DisplayMemberBinding="{Binding GpsAltitude}"/>
+                    <GridViewColumn Width="66" Header="Pitch" DisplayMemberBinding="{Binding Pitch}"/>
+                    <GridViewColumn Width="66" Header="Roll" DisplayMemberBinding="{Binding Roll}"/>
+                    <GridViewColumn Width="66" Header="Yaw" DisplayMemberBinding="{Binding Yaw}"/>
+                    <GridViewColumn Width="66" Header="RHRH" DisplayMemberBinding="{Binding RHRH}"/>
+                    <GridViewColumn Width="66" Header="IoTData" DisplayMemberBinding="{Binding IoTData}"/>
+                    <GridViewColumn Width="66" Header="Takımno" DisplayMemberBinding="{Binding TakimNo}"/>
 
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBox x:Name="komut" Margin="698,51,34,61" Grid.Row="1">0</TextBox>
+        <Border Background="#455679" Margin="969,16,487,688" Width="464" Height="360" BorderBrush="Black" BorderThickness="5">
+            <charts:CartesianChart  Height="264"  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding SpeedSeries}" LegendLocation="Bottom" Margin="5,91,5,-5"/>
+        </Border>
+        <Border Background="#455679" Margin="1438,16,18,688" Width="464" Height="360" BorderBrush="Black" BorderThickness="5">
+            <charts:CartesianChart Height="264" Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding PressureSeries}" LegendLocation="Bottom" Margin="-5,81,-5,5"/>
+        </Border>
+        <Border Background="#455679" Margin="500,391,956,313" Width="464" Height="360" BorderBrush="Black" BorderThickness="5">
+            <charts:CartesianChart Height="264"  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding VoltageSeries}" LegendLocation="Bottom" Margin="5,81,5,5"/>
+        </Border>
+        <Border Background="#455679" Margin="969,391,487,313" Width="464" Height="360" BorderBrush="Black" BorderThickness="5">
+            <charts:CartesianChart  Height="264"  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding AltitudeSeries}" LegendLocation="Bottom" Margin="13,86,9,6"/>
+        </Border>
+        <Border Background="#455679" Margin="1438,391,18,313" Width="464" Height="360" BorderBrush="Black" BorderThickness="3"/>
+        <Border  Background="#455679" Margin="123,10,1441,835" Width="356" BorderBrush="Black" BorderThickness="3"/>
+        <Border  Background="#455679" Margin="15,234,1442,722" Width="463" BorderBrush="Black" BorderThickness="3"/>
+        <Border  Background="#8E939C" Margin="151,248,1562,741" BorderBrush="Black" BorderThickness="1">
+            <TextBox VerticalContentAlignment="Center" FontSize="25" TextAlignment="Center" Background="#8E939C" x:Name="komut" Margin="1,2,2,2" Text="0"/>
+        </Border>
+        <Border  Background="#455679" Margin="16,346,1441,377" Width="463" BorderBrush="Black" BorderThickness="5" Height="341"/>
+        <Border  Background="#455679" Margin="16,699,1441,24" Width="463" BorderBrush="Black" BorderThickness="5" Height="341"/>
+        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="510,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Sıcaklık(°C)" FontWeight="Bold" Foreground="White"/>
+        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="980,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Hız (m/s)" FontWeight="Bold" Foreground="White"/>
+        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="1449,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Basınç(Pa)" FontWeight="Bold" Foreground="White"/>
+        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="980,391,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Yükseklik(m)" FontWeight="Bold" Foreground="White"/>
+        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="511,391,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Pil Gerilim (V)" FontWeight="Bold" Foreground="White"/>
+        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="1449,406,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Uydu Duruşu" FontWeight="Bold" Foreground="White" />
+        <Ellipse  Margin="1478,672,58,324" Fill="#9F9F9F" Opacity="0.6"/>
+        <Ellipse  Margin="1590,682,170,335" Fill="#7C7C7C" Opacity="0.9"/>
+        <TextBlock FontSize="20" HorizontalAlignment="Left" TextAlignment="Center"  Margin="123,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="356" Height="44" Text="Alarm Sistemi" FontWeight="Bold" Foreground="White"/>
+        <TextBlock FontSize="15" HorizontalAlignment="Left" TextAlignment="Left"  Margin="188,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="291" Height="30" Text="Model Uydu İniş Hızı Sapması" FontWeight="Regular" Foreground="White"/>
+        <TextBlock FontSize="15" HorizontalAlignment="Left" TextAlignment="Left"  Margin="187,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="291" Height="30" Text="Görev Yükü İniş Hızı Sapması" FontWeight="Regular" Foreground="White"/>
+        <TextBlock FontSize="15" HorizontalAlignment="Left" TextAlignment="left"  Margin="188,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="291" Height="30" Text="Taşıyıcı Basınç Verisi Alınamaması" FontWeight="Regular" Foreground="White"/>
+        <TextBlock FontSize="15" HorizontalAlignment="Left" TextAlignment="Left"  Margin="187,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="291" Height="30" Text="Görev Yükü Konum Verisinin Alınamaması" FontWeight="Regular" Foreground="White"/>
+        <TextBlock FontSize="15" HorizontalAlignment="Left" TextAlignment="left"  Margin="188,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="291" Height="30" Text="Ayrılmanın Gerçekleşmemesi" FontWeight="Regular" Foreground="White"/>
+        <Ellipse Fill="Red" Margin="165,51,1743,1000"/>
+
+
     </Grid>
 </Window>
