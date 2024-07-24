@@ -8,13 +8,14 @@ using System.Linq;
 using System.Windows.Threading;
 using NebulaGUI.Models;
 using NebulaGUI.Services;
+using System.Threading.Tasks;
 
 namespace NebulaGUI.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
         private DispatcherTimer timer;
-        private string dosyaYolu = "C:\\Users\\colak\\OneDrive\\Masaüstü\\WPF\\Kitap1.csv";
+        private string dosyaYolu = "C:\\Users\\colak\\OneDrive\\Belgeler\\Kitap1.csv";
 
 
         // Servis ile veri çekme
@@ -60,17 +61,15 @@ namespace NebulaGUI.ViewModel
         {
             timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(1)
+                Interval = TimeSpan.FromSeconds(2)
             };
             timer.Tick += Timer_Tick;
             timer.Start();
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private async void Timer_Tick(object sender, EventArgs e)
         {
-            // Grafik verilerini her saniye yenile
             VerileriYenileVeGrafikOlustur();
-
         }
 
         private void VerileriYenileVeGrafikOlustur()

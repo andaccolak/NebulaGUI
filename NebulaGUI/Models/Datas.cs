@@ -29,5 +29,6 @@ namespace NebulaGUI.Models
         public string RHRH { get; set; }
         public double IoTData { get; set; }
         public double TakimNo { get; set; }
+        public string Ayrilma { get; set; }
     }
 }
