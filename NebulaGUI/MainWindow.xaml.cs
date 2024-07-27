@@ -1,26 +1,19 @@
 ﻿using AForge.Video;
 using AForge.Video.DirectShow;
 using System;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Microsoft.Office.Interop.Excel;
-using System.Threading.Tasks;
-using System.IO;
-using System.Drawing.Imaging;
-using System.Drawing;
-using Application = Microsoft.Office.Interop.Excel.Application;
-using FilterCategory = AForge.Video.DirectShow.FilterCategory;
 
 namespace NebulaGUI
 {
     public partial class MainWindow : System.Windows.Window
     {
-
-        private static readonly object fileLock = new object();
-
-        private DispatcherTimer timer;
         private FilterInfoCollection videoDevices;
         private VideoCaptureDevice videoSource;
 
@@ -28,7 +21,7 @@ namespace NebulaGUI
         {
             InitializeComponent();
             InitializeWebcam();
-            InitializeTimer();
+           
         }
 
         private void InitializeWebcam()
@@ -89,84 +82,6 @@ namespace NebulaGUI
             base.OnClosing(e);
         }
 
-        private void InitializeTimer()
-        {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(2);
-            timer.Tick += Timer_Tick;
-            timer.Start();
-        }
-
-        private async void Timer_Tick(object sender, EventArgs e)
-        {
-            await Task.Run(() => UpdateExcelFile());
-        }
-
-        private void UpdateExcelFile()
-        {
-            string filePath = "C:\\Users\\colak\\OneDrive\\Belgeler\\Kitap1.csv";
-            string newFilePath = "C:\\Users\\colak\\OneDrive\\Masaüstü\\WPF\\Kitap1_updated.csv";
-            string textBoxValue = Dispatcher.Invoke(() => komut.Text);
-            string textBoxValue1 = Dispatcher.Invoke(() => komut_Copy.Text);
-
-           
-            try
-            {
-                lock (fileLock)
-                {
-                    var excelApp = new Application();
-                    Workbook workbook = null;
-                    Worksheet worksheet = null;
-
-                    try
-                    {
-                        excelApp.DisplayAlerts = false;
-                        workbook = excelApp.Workbooks.Open(filePath);
-                        worksheet = workbook.Sheets[1];
-
-                        Range aColumn = worksheet.Columns["A"];
-                        int rowCount = aColumn.Cells.SpecialCells(XlCellType.xlCellTypeLastCell).Row;
-
-                        for (int i = 1; i <= rowCount; i++)
-                        {
-                            Range vcell = worksheet.Cells[i, "V"];
-                            if (vcell.Value == null)
-                            {
-                                vcell.Value = textBoxValue;
-                            }
-
-                            Range wcell = worksheet.Cells[i, "W"];
-                            if (wcell.Value == null)
-                            {
-                                wcell.Value = textBoxValue1;
-                            }
-                        }
-
-                        workbook.SaveAs(newFilePath);
-                    }
-                    finally
-                    {
-                        if (workbook != null)
-                        {
-                            workbook.Close(false);
-                            Marshal.ReleaseComObject(workbook);
-                        }
-                        excelApp.Quit();
-                        Marshal.ReleaseComObject(excelApp);
-                    }
-                }
-            }
-            catch (IOException ioEx)
-            {
-                System.Windows.MessageBox.Show($"Dosya erişim hatası: {ioEx.Message}");
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show($"Hata: {ex.Message}");
-            }
-        }
-    
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("deneme");
@@ -176,5 +91,6 @@ namespace NebulaGUI
         {
             komut_Copy.Text = "1";
         }
+
     }
 }
