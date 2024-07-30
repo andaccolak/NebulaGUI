@@ -26,9 +26,10 @@ namespace NebulaGUI.Models
         public double Pitch { get; set; }
         public double Roll { get; set; }
         public double Yaw { get; set; }
-        public string RHRH { get; set; }
         public double IoTData { get; set; }
         public double TakimNo { get; set; }
+        public string RHRH { get; set; }
+
         public string Ayrilma { get; set; }
     }
 }

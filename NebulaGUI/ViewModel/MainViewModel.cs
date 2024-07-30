@@ -8,8 +8,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Threading;
+using HelixToolkit.Wpf;
+using System.Windows.Media.Media3D;
 using NebulaGUI.Models;
 using NebulaGUI.Services;
 
@@ -20,7 +21,7 @@ namespace NebulaGUI.ViewModel
         private DispatcherTimer fetchDataTimer;
         private DispatcherTimer updateExcelTimer;
         private readonly FetchDataService _fetchDataService = new FetchDataService();
-        private string dosyaYolu = "C:\\Users\\colak\\OneDrive\\Masaüstü\\WPF\\Kitap1.csv";
+        private string dosyaYolu = "C:\\Users\\colak\\Desktop\\WPF\\Kitap123456.csv";
 
         public ObservableCollection<Datas> AllDatas { get; } = new ObservableCollection<Datas>();
         public ObservableCollection<Datas> AllDatasReversed { get; } = new ObservableCollection<Datas>();
@@ -112,32 +113,59 @@ namespace NebulaGUI.ViewModel
             set { _speedSeries = value; OnPropertyChanged(nameof(SpeedSeries)); }
         }
 
+        private Model3D _model;
+        public Model3D Model
+        {
+            get { return _model; }
+            set { _model = value; OnPropertyChanged(nameof(Model)); }
+        }
+
+        private Transform3D _modelTransform;
+        public Transform3D ModelTransform
+        {
+            get { return _modelTransform; }
+            set { _modelTransform = value; OnPropertyChanged(nameof(ModelTransform)); }
+        }
+
         public MainViewModel()
         {
             fetchDataTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(2)
+                Interval = TimeSpan.FromMilliseconds(500)
             };
             fetchDataTimer.Tick += async (s, e) => await VerileriYenileVeGrafikOlusturAsync();
             fetchDataTimer.Start();
 
             updateExcelTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(4) // 2 saniyelik veri çekme işleminden sonra 2 saniyelik yazma işlemi
+                Interval = TimeSpan.FromSeconds(1) //0.5 saniyelik veri çekme işleminden sonra 0.5 saniyelik yazma işlemi
             };
             updateExcelTimer.Tick += async (s, e) => await UpdateExcelFileAsync();
             updateExcelTimer.Start();
 
-            // GPS verilerini güncelle
-            UpdateGpsData();
+            LoadModel();
+            UpdateGpsAndOrientationData();
         }
 
-        private async void UpdateGpsData()
+        private void LoadModel()
         {
-            var gpsData = await _fetchDataService.GetLastGpsDataAsync(dosyaYolu);
-            GpsLatitude = gpsData.latitude;
-            GpsLongitude = gpsData.longitude;
-            GpsAltitude = gpsData.altitude;
+            var loader = new StLReader();
+            Model = loader.Read("C:\\Users\\colak\\Desktop\\WPF\\mm.STL");
+        }
+
+        private async void UpdateGpsAndOrientationData()
+        {
+            var data = await _fetchDataService.GetLastGpsAndOrientationDataAsync(dosyaYolu);
+            GpsLatitude = data.latitude;
+            GpsLongitude = data.longitude;
+            GpsAltitude = data.altitude;
+
+            var transformGroup = new Transform3DGroup();
+            transformGroup.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), data.pitch)));
+            transformGroup.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 1, 0), data.yaw)));
+            transformGroup.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), data.roll)));
+
+            ModelTransform = transformGroup;
         }
 
         private void UpdateGpsPosition()
@@ -169,6 +197,7 @@ namespace NebulaGUI.ViewModel
                 var speed = AllDatas.Select(r => r.InisHizi).ToList();
                 var voltage = AllDatas.Select(r => r.PilGerilimi).ToList();
                 var pressure = AllDatas.Select(r => r.Basinc1).ToList();
+
 
                 AltitudeSeries = new SeriesCollection
                 {
@@ -226,8 +255,6 @@ namespace NebulaGUI.ViewModel
         {
             await _fetchDataService.UpdateExcelFileAsync(dosyaYolu, Komut, Ayrilmakomut);
         }
-
-       
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)

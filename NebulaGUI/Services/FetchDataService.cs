@@ -20,7 +20,7 @@ namespace NebulaGUI.Services
             bool isFirstLine = true;
             var records = new List<Datas>();
 
-            await semaphore.WaitAsync();
+            await semaphore.WaitAsync(); // Asenkron kilitleme
             try
             {
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -28,7 +28,7 @@ namespace NebulaGUI.Services
                 using (TextFieldParser parser = new TextFieldParser(sr))
                 {
                     parser.TextFieldType = FieldType.Delimited;
-                    parser.SetDelimiters(",");
+                    parser.SetDelimiters(","); // Delimiter olarak virgül ayarlandı
                     while (!parser.EndOfData)
                     {
                         string[] fields = parser.ReadFields();
@@ -37,7 +37,9 @@ namespace NebulaGUI.Services
                             isFirstLine = false;
                             continue;
                         }
-                        Datas record = ParseFields(fields);
+
+                        // Ensure the array has enough elements
+                        Datas record = ParseFieldsWithDefaults(fields);
                         records.Add(record);
                     }
                 }
@@ -48,39 +50,41 @@ namespace NebulaGUI.Services
             }
             finally
             {
-                semaphore.Release();
+                semaphore.Release(); // Kilidi serbest bırak
             }
 
             return records;
         }
 
-        private Datas ParseFields(string[] fields)
+        private Datas ParseFieldsWithDefaults(string[] fields)
         {
-            return new Datas
+            var data = new Datas
             {
-                PaketNo = ParseDouble(fields[0]),
-                UyduStatusu = ParseDouble(fields[1]),
-                HataKodu = ParseDouble(fields[2]),
-                GondermeSaati = ParseDouble(fields[3]),
-                Basinc1 = ParseDouble(fields[4]),
-                Basinc2 = ParseDouble(fields[5]),
-                Yukseklik1 = ParseDouble(fields[6]),
-                Yukseklik2 = ParseDouble(fields[7]),
-                IrtifaFarki = ParseDouble(fields[8]),
-                InisHizi = ParseDouble(fields[9]),
-                Sicaklik = ParseDouble(fields[10]),
-                PilGerilimi = ParseDouble(fields[11]),
-                GpsLatitude = ParseDouble(fields[12]),
-                GpsLongitude = ParseDouble(fields[13]),
-                GpsAltitude = ParseDouble(fields[14]),
-                Pitch = ParseDouble(fields[15]),
-                Roll = ParseDouble(fields[16]),
-                Yaw = ParseDouble(fields[17]),
-                IoTData = ParseDouble(fields[18]),
-                TakimNo = ParseDouble(fields[19]),
-                RHRH = string.IsNullOrWhiteSpace(fields[20]) ? "0" : fields[20],
-                Ayrilma = string.IsNullOrWhiteSpace(fields[21]) ? "0" : fields[21]
+                PaketNo = fields.Length > 0 ? ParseDouble(fields[0]) : 0,
+                UyduStatusu = fields.Length > 1 ? ParseDouble(fields[1]) : 0,
+                HataKodu = fields.Length > 2 ? ParseDouble(fields[2]) : 0,
+                GondermeSaati = fields.Length > 3 ? ParseDouble(fields[3]) : 0,
+                Basinc1 = fields.Length > 4 ? ParseDouble(fields[4]) : 0,
+                Basinc2 = fields.Length > 5 ? ParseDouble(fields[5]) : 0,
+                Yukseklik1 = fields.Length > 6 ? ParseDouble(fields[6]) : 0,
+                Yukseklik2 = fields.Length > 7 ? ParseDouble(fields[7]) : 0,
+                IrtifaFarki = fields.Length > 8 ? ParseDouble(fields[8]) : 0,
+                InisHizi = fields.Length > 9 ? ParseDouble(fields[9]) : 0,
+                Sicaklik = fields.Length > 10 ? ParseDouble(fields[10]) : 0,
+                PilGerilimi = fields.Length > 11 ? ParseDouble(fields[11]) : 0,
+                GpsLatitude = fields.Length > 12 ? ParseDouble(fields[12]) : 0,
+                GpsLongitude = fields.Length > 13 ? ParseDouble(fields[13]) : 0,
+                GpsAltitude = fields.Length > 14 ? ParseDouble(fields[14]) : 0,
+                Pitch = fields.Length > 15 ? ParseDouble(fields[15]) : 0,
+                Roll = fields.Length > 16 ? ParseDouble(fields[16]) : 0,
+                Yaw = fields.Length > 17 ? ParseDouble(fields[17]) : 0,
+                IoTData = fields.Length > 18 ? ParseDouble(fields[18]) : 0,
+                TakimNo = fields.Length > 19 ? ParseDouble(fields[19]) : 0,
+                RHRH = fields.Length > 20 && !string.IsNullOrWhiteSpace(fields[20]) ? fields[20] : "0",
+                Ayrilma = fields.Length > 21 && !string.IsNullOrWhiteSpace(fields[21]) ? fields[21] : "0"
             };
+
+            return data;
         }
 
         private double ParseDouble(string value)
@@ -94,7 +98,7 @@ namespace NebulaGUI.Services
 
         public async Task UpdateExcelFileAsync(string filePath, string komutText, string ayrilmakomutText)
         {
-            await semaphore.WaitAsync();
+            await semaphore.WaitAsync(); // Asenkron kilitleme
             try
             {
                 await Task.Run(() =>
@@ -105,11 +109,8 @@ namespace NebulaGUI.Services
 
                     try
                     {
-                        FileInfo fileInfo = new FileInfo(filePath);
-                        fileInfo.IsReadOnly = false;
-
                         excelApp.DisplayAlerts = false;
-                        workbook = excelApp.Workbooks.Open(filePath);
+                        workbook = excelApp.Workbooks.Open(filePath, ReadOnly: false, Editable: true);
                         worksheet = workbook.Sheets[1];
 
                         Range aColumn = worksheet.Columns["A"];
@@ -117,24 +118,20 @@ namespace NebulaGUI.Services
 
                         for (int i = 1; i <= rowCount; i++)
                         {
-                            Range vcell = worksheet.Cells[i, "V"];
+                            Range vcell = worksheet.Cells[i, "U"];
                             if (vcell.Value == null)
                             {
                                 vcell.Value = komutText;
                             }
 
-                            Range wcell = worksheet.Cells[i, "W"];
+                            Range wcell = worksheet.Cells[i, "V"];
                             if (wcell.Value == null)
                             {
                                 wcell.Value = ayrilmakomutText;
                             }
                         }
 
-                        workbook.SaveAs(filePath);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Windows.MessageBox.Show($"Hata: {ex.Message}");
+                        workbook.Save();
                     }
                     finally
                     {
@@ -143,21 +140,22 @@ namespace NebulaGUI.Services
                             workbook.Close(false);
                             Marshal.ReleaseComObject(workbook);
                         }
-                        if (excelApp != null)
-                        {
-                            excelApp.Quit();
-                            Marshal.ReleaseComObject(excelApp);
-                        }
+                        excelApp.Quit();
+                        Marshal.ReleaseComObject(excelApp);
                     }
                 });
             }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Hata: {ex.Message}");
+            }
             finally
             {
-                semaphore.Release();
+                semaphore.Release(); // Kilidi serbest bırak
             }
         }
 
-        public async Task<(double latitude, double longitude, double altitude)> GetLastGpsDataAsync(string filePath)
+        public async Task<(double latitude, double longitude, double altitude, double roll, double yaw, double pitch)> GetLastGpsAndOrientationDataAsync(string filePath)
         {
             await semaphore.WaitAsync();
             try
@@ -168,6 +166,7 @@ namespace NebulaGUI.Services
                     Workbook workbook = null;
                     Worksheet worksheet = null;
                     double latitude = 0, longitude = 0, altitude = 0;
+                    double roll = 0, yaw = 0, pitch = 0;
 
                     try
                     {
@@ -183,10 +182,16 @@ namespace NebulaGUI.Services
                             Range latCell = worksheet.Cells[rowCount, "M"];
                             Range lonCell = worksheet.Cells[rowCount, "N"];
                             Range altCell = worksheet.Cells[rowCount, "O"];
+                            Range rollCell = worksheet.Cells[rowCount, "P"];
+                            Range yawCell = worksheet.Cells[rowCount, "Q"];
+                            Range pitchCell = worksheet.Cells[rowCount, "R"];
 
                             latitude = latCell.Value != null ? latCell.Value : 0;
                             longitude = lonCell.Value != null ? lonCell.Value : 0;
                             altitude = altCell.Value != null ? altCell.Value : 0;
+                            roll = rollCell.Value != null ? rollCell.Value : 0;
+                            yaw = yawCell.Value != null ? yawCell.Value : 0;
+                            pitch = pitchCell.Value != null ? pitchCell.Value : 0;
                         }
                     }
                     catch (Exception ex)
@@ -207,7 +212,7 @@ namespace NebulaGUI.Services
                         }
                     }
 
-                    return (latitude, longitude, altitude);
+                    return (latitude, longitude, altitude, roll, yaw, pitch);
                 });
             }
             finally
@@ -217,3 +222,4 @@ namespace NebulaGUI.Services
         }
     }
 }
+

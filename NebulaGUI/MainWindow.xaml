@@ -6,6 +6,8 @@
         xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" 
         xmlns:local="clr-namespace:NebulaGUI" xmlns:vm="clr-namespace:NebulaGUI.ViewModel"  xmlns:gmap="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         xmlns:gmapProviders="clr-namespace:GMap.NET.MapProviders;assembly=GMap.NET.Core"
+                xmlns:helix="http://helix-toolkit.org/wpf"
+
         mc:Ignorable="d"
         Title="MainWindow" Height="1000" Width="1900">
     <Window.Resources>
@@ -20,64 +22,73 @@
 
 
     <Grid Background="#22468B">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1900*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Rectangle HorizontalAlignment="Left" StrokeThickness="2" Fill="#455679" Height="210" Margin="139,16,0,0" Stroke="Black" VerticalAlignment="Top" Width="339"/>
-        <Border Background="#455679" Margin="500,16,947,608" BorderBrush="Black" BorderThickness="5">
+        <Border x:Name="TempBorder" Background="#455679" Margin="500,16,947,608" BorderBrush="Black" BorderThickness="5">
             <charts:CartesianChart  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding TemperatureSeries}" LegendLocation="Bottom" Margin="1,77,1,-5"/>
 
         </Border>
         <Image Source="C:\Users\colak\OneDrive\Masaüstü\teknofest\Artboard 6.png" Margin="-14,-15,1744,830" ></Image>
-        <ListView ItemsSource="{Binding AllDatasReversed}" Margin="500,740,10,24">
+        <ListView x:Name="DataList" ItemsSource="{Binding AllDatasReversed}" Margin="500,738,10,31">
 
             <ListView.View>
                 <GridView >
-                    <GridViewColumn Width="66" Header="PaketNo" DisplayMemberBinding="{Binding PaketNo}"/>
-                    <GridViewColumn Width="66" Header="UyduStatusu" DisplayMemberBinding="{Binding UyduStatusu}"/>
-                    <GridViewColumn Width="66" Header="HataKodu" DisplayMemberBinding="{Binding HataKodu}"/>
-                    <GridViewColumn Width="66" Header="GondermeSaati" DisplayMemberBinding="{Binding GondermeSaati}"/>
-                    <GridViewColumn Width="66" Header="Basinc1" DisplayMemberBinding="{Binding Basinc1}"/>
-                    <GridViewColumn Width="66" Header="Basinc2" DisplayMemberBinding="{Binding Basinc2}"/>
-                    <GridViewColumn Width="66" Header="Yukseklik1" DisplayMemberBinding="{Binding Yukseklik1}"/>
-                    <GridViewColumn Width="66" Header="Yukseklik2" DisplayMemberBinding="{Binding Yukseklik2}"/>
-                    <GridViewColumn Width="66" Header="IrtifaFarki" DisplayMemberBinding="{Binding IrtifaFarki}"/>
-                    <GridViewColumn Width="66" Header="InişHizi" DisplayMemberBinding="{Binding InisHizi}"/>
-                    <GridViewColumn Width="66" Header="Sicaklik" DisplayMemberBinding="{Binding Sicaklik}"/>
-                    <GridViewColumn Width="66" Header="PilGerilimi" DisplayMemberBinding="{Binding PilGerilimi}"/>
-                    <GridViewColumn Width="66" Header="GpsLatitude" DisplayMemberBinding="{Binding GpsLatitude}"/>
-                    <GridViewColumn Width="66" Header="GpsLongitude" DisplayMemberBinding="{Binding GpsLongitude}"/>
-                    <GridViewColumn Width="66" Header="GpsAltitude" DisplayMemberBinding="{Binding GpsAltitude}"/>
-                    <GridViewColumn Width="66" Header="Pitch" DisplayMemberBinding="{Binding Pitch}"/>
-                    <GridViewColumn Width="66" Header="Roll" DisplayMemberBinding="{Binding Roll}"/>
-                    <GridViewColumn Width="66" Header="Yaw" DisplayMemberBinding="{Binding Yaw}"/>
-                    <GridViewColumn Width="66" Header="RHRH" DisplayMemberBinding="{Binding RHRH}"/>
-                    <GridViewColumn Width="66" Header="IoTData" DisplayMemberBinding="{Binding IoTData}"/>
-                    <GridViewColumn Width="66" Header="Takımno" DisplayMemberBinding="{Binding TakimNo}"/>
+                    <GridViewColumn Width="62" Header="PaketNo" DisplayMemberBinding="{Binding PaketNo}"/>
+                    <GridViewColumn Width="62" Header="UyduStatusu" DisplayMemberBinding="{Binding UyduStatusu}"/>
+                    <GridViewColumn Width="62" Header="HataKodu" DisplayMemberBinding="{Binding HataKodu}"/>
+                    <GridViewColumn Width="62" Header="GondermeSaati" DisplayMemberBinding="{Binding GondermeSaati}"/>
+                    <GridViewColumn Width="62" Header="Basinc1" DisplayMemberBinding="{Binding Basinc1}"/>
+                    <GridViewColumn Width="62" Header="Basinc2" DisplayMemberBinding="{Binding Basinc2}"/>
+                    <GridViewColumn Width="62" Header="Yukseklik1" DisplayMemberBinding="{Binding Yukseklik1}"/>
+                    <GridViewColumn Width="62" Header="Yukseklik2" DisplayMemberBinding="{Binding Yukseklik2}"/>
+                    <GridViewColumn Width="62" Header="IrtifaFarki" DisplayMemberBinding="{Binding IrtifaFarki}"/>
+                    <GridViewColumn Width="62" Header="InişHizi" DisplayMemberBinding="{Binding InisHizi}"/>
+                    <GridViewColumn Width="62" Header="Sicaklik" DisplayMemberBinding="{Binding Sicaklik}"/>
+                    <GridViewColumn Width="62" Header="PilGerilimi" DisplayMemberBinding="{Binding PilGerilimi}"/>
+                    <GridViewColumn Width="62" Header="GpsLatitude" DisplayMemberBinding="{Binding GpsLatitude}"/>
+                    <GridViewColumn Width="62" Header="GpsLongitude" DisplayMemberBinding="{Binding GpsLongitude}"/>
+                    <GridViewColumn Width="62" Header="GpsAltitude" DisplayMemberBinding="{Binding GpsAltitude}"/>
+                    <GridViewColumn Width="62" Header="Pitch" DisplayMemberBinding="{Binding Pitch}"/>
+                    <GridViewColumn Width="62" Header="Roll" DisplayMemberBinding="{Binding Roll}"/>
+                    <GridViewColumn Width="62" Header="Yaw" DisplayMemberBinding="{Binding Yaw}"/>
+                    <GridViewColumn Width="62" Header="IoTData" DisplayMemberBinding="{Binding IoTData}"/>
+                    <GridViewColumn Width="62" Header="Takımno" DisplayMemberBinding="{Binding TakimNo}"/>
+                    <GridViewColumn Width="62" Header="RHRH" DisplayMemberBinding="{Binding RHRH}"/>
+                    <GridViewColumn Width="62" Header="Ayrilma" DisplayMemberBinding="{Binding Ayrilma}"/>
+
+
 
                 </GridView>
             </ListView.View>
         </ListView>
-        <Border Background="#455679" Margin="969,16,478,608" BorderBrush="Black" BorderThickness="5">
+        <Border x:Name="VelocityBorder" Background="#455679" Margin="969,16,478,608" BorderBrush="Black" BorderThickness="5">
             <charts:CartesianChart  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding SpeedSeries}" LegendLocation="Bottom" Margin="5,91,5,5"/>
         </Border>
-        <Border Background="#455679" Margin="1438,16,10,608" BorderBrush="Black" BorderThickness="5">
+        <Border x:Name="PressureBorder" Background="#455679" Margin="1438,16,10,608" BorderBrush="Black" BorderThickness="5">
             <charts:CartesianChart Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding PressureSeries}" LegendLocation="Bottom" Margin="5,81,5,5"/>
         </Border>
-        <Border Background="#455679" Margin="500,391,947,269" BorderBrush="Black" BorderThickness="5">
+        <Border x:Name="VoltageBorder" Background="#455679" Margin="500,391,947,269" BorderBrush="Black" BorderThickness="5">
             <charts:CartesianChart  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding VoltageSeries}" LegendLocation="Bottom" Margin="5,81,5,5"/>
         </Border>
-        <Border Background="#455679" Margin="969,391,478,269" BorderBrush="Black" BorderThickness="5">
+        <Border x:Name="AltitudeBorder" Background="#455679" Margin="969,391,478,269" BorderBrush="Black" BorderThickness="5">
             <charts:CartesianChart  Zoom="X" DataContext="{StaticResource vm1}" DisableAnimations="True" Series="{Binding AltitudeSeries}" LegendLocation="Bottom" Margin="13,86,9,5"/>
         </Border>
-        <Border Background="#455679" Margin="1438,391,10,269" BorderBrush="Black" BorderThickness="3"/>
+        <Border x:Name="SatBorder" Background="#455679" Margin="1438,391,10,269" BorderBrush="Black" BorderThickness="3">
+            <helix:HelixViewport3D Margin="-3,57,-3,-3">
+                <helix:DefaultLights/>
+                <ModelVisual3D Content="{Binding Model}" Transform="{Binding ModelTransform}"/>
+            </helix:HelixViewport3D>
+        </Border>
         <Border  Background="#455679" Margin="15,352,1421,341" BorderBrush="Black" BorderThickness="5"/>
-        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="510,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Sıcaklık(°C)" FontWeight="Bold" Foreground="White"/>
-        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="980,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Hız (m/s)" FontWeight="Bold" Foreground="White"/>
-        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="1449,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Basınç(Pa)" FontWeight="Bold" Foreground="White"/>
-        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="980,391,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Yükseklik(m)" FontWeight="Bold" Foreground="White"/>
-        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="511,391,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Pil Gerilim (V)" FontWeight="Bold" Foreground="White"/>
-        <TextBlock FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="1449,406,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Uydu Duruşu" FontWeight="Bold" Foreground="White" />
-        <Ellipse  Margin="1478,672,58,324" Fill="#9F9F9F" Opacity="0.6"/>
-        <Ellipse  Margin="1590,682,170,335" Fill="#7C7C7C" Opacity="0.9"/>
-        <TextBlock FontSize="20" HorizontalAlignment="Left" TextAlignment="Center"  Margin="123,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="356" Height="24" Text="Alarm Sistemi" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="TempText" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="510,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Sıcaklık(°C)" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="VelocityText" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="980,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Hız (m/s)" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="PressureText" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="1449,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Basınç(Pa)" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="AltitudeText" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="980,391,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Yükseklik(m)" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="VoltageText" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="511,391,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="69" Text="Pil Gerilim (V)" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="SatText" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="1449,394,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" Height="81" Text="Uydu Duruşu" FontWeight="Bold" Foreground="White" />
         <TextBlock FontSize="15" HorizontalAlignment="Left" TextAlignment="Left"  Margin="188,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="291" Height="31" Text="Model Uydu İniş Hızı Sapması" FontWeight="Regular" Foreground="White"/>
         <TextBlock FontSize="15" HorizontalAlignment="Left" TextAlignment="Left"  Margin="187,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="291" Height="31" Text="Görev Yükü İniş Hızı Sapması" FontWeight="Regular" Foreground="White"/>
         <TextBlock FontSize="15" HorizontalAlignment="Left" TextAlignment="left"  Margin="188,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="291" Height="31" Text="Taşıyıcı Basınç Verisi Alınamaması" FontWeight="Regular" Foreground="White"/>
@@ -100,7 +111,7 @@
         <TextBox Visibility="Hidden" x:Name="komut_Copy" HorizontalAlignment="Left" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#8E939C" Margin="164,316,0,0" TextWrapping="Wrap" Text="{Binding Ayrilmakomut, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Height="45" Width="136"/>
         <Button  Click="Button_Click" Opacity="0" Content="Button" HorizontalAlignment="Left" Margin="384,261,0,0" VerticalAlignment="Top" Height="44" Width="48"/>
         <gmap:GMapControl x:Name="MainMap"
-                         Zoom="450"
+                         Zoom="499"
                          MinZoom="1"
                          MaxZoom="500"
                          MapProvider="{x:Static gmapProviders:GMapProviders.GoogleMap}"
@@ -111,5 +122,36 @@
                          HorizontalAlignment="Left"
                          Width="442"
                          Height="260" Margin="25,714,0,0"/>
+        <Image x:Name="listButton" Source="C:\Users\colak\OneDrive\Masaüstü\WPF\listarrow.png" Margin="1847,938,9,2" 
+               MouseLeftButtonDown="ListUpButton" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="180"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Border x:Name="alarmBorder" Visibility="Hidden" Background="#455679" Margin="500,158,502,623" BorderBrush="Black" BorderThickness="5">
+            <TextBlock FontSize="40" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="878" Height="60" Text="Alarm Sistemi" FontWeight="Bold" Foreground="White" Margin="0,-5,0,0"/>
+        </Border>
+        <Ellipse x:Name="readyCircle"  Visibility="Hidden" Fill="Red" HorizontalAlignment="Left" Height="80" Margin="580,210,0,0" VerticalAlignment="Top" Width="80"/>
+        <Ellipse x:Name="yukselmeCircle"  Visibility="Hidden" Fill="Red" HorizontalAlignment="Left" Height="80" Margin="745,210,0,0" VerticalAlignment="Top" Width="80"/>
+        <Ellipse x:Name="inisCircle"  Visibility="Hidden" Fill="Red" HorizontalAlignment="Left" Height="80" Margin="905,210,0,0" VerticalAlignment="Top" Width="80"/>
+        <Ellipse x:Name="ayrilmaCircle"  Visibility="Hidden" Fill="Red" HorizontalAlignment="Left" Height="80" Margin="1065,210,0,0" VerticalAlignment="Top" Width="80"/>
+        <Ellipse x:Name="kurtarmaCircle"  Visibility="Hidden" Fill="Red" HorizontalAlignment="Left" Height="80" Margin="1225,210,0,0" VerticalAlignment="Top" Width="80"/>
+        <TextBlock x:Name="readyText"  Visibility="Hidden" FontSize="25" HorizontalAlignment="Left" TextAlignment="Center"  Margin="518,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" Height="55" Text="Uçuşa Hazır" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="yukselmeText"  Visibility="Hidden" FontSize="25" HorizontalAlignment="Left" TextAlignment="Center"  Margin="683,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" Height="55" Text="Yükselme" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="inisText"  Visibility="Hidden" FontSize="20" HorizontalAlignment="Left" TextAlignment="Center"  Margin="843,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" Height="55" Text="Model 
+                   Uydu İniş" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="AyrilmaText"  Visibility="Hidden" FontSize="25" HorizontalAlignment="Left" TextAlignment="Center"  Margin="1010,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" Height="55" Text="Ayrılma" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="kurtarmaText"  Visibility="Hidden" FontSize="25" HorizontalAlignment="Left" TextAlignment="Center"  Margin="1171,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" Height="55" Text="Kurtarma" FontWeight="Bold" Foreground="White"/>
+        <Border x:Name="timeBorder"  Visibility="Hidden" Background="#455679" Margin="496,10,818,873" BorderBrush="Black" BorderThickness="5">
+            <TextBlock  FontSize="25" HorizontalAlignment="Left" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="200" Height="42" Text="Görev Süresi" FontWeight="Bold" Foreground="White" Margin="192,0,0,0"/>
+        </Border>
+        <TextBlock x:Name="Timing"  Visibility="Hidden" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"  Margin="892,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" Height="45" Text="05:24:03" FontWeight="Bold" Foreground="White"/>
+        <Rectangle x:Name="timeRect"  Visibility="Hidden" Fill="Black" HorizontalAlignment="Left" Height="115" Margin="690,13,0,0" Stroke="Black" VerticalAlignment="Top" Width="5"/>
+        <Rectangle x:Name="timeRect2"  Visibility="Hidden" Fill="Black" HorizontalAlignment="Left" Height="118" Margin="890,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="6"/>
     </Grid>
 </Window>
