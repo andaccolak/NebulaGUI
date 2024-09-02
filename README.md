@@ -7,8 +7,6 @@ Uydunun Havadaki Duruşunu Gösterme: Uydunun roll, yaw ve pitch değerlerini an
 Veri Görselleştirme: Sıcaklık, nem, hız, basınç, yükseklik, pil gerilimi gibi önemli telemetri verilerini LiveChart kütüphanesi kullanarak görselleştirmek.
 Gerçek Zamanlı Kamera Görüntüsü: Uydudan gelen canlı kamera görüntüsünü arayüzde göstermek ve kayıt tuşuna basarak görüntüyü kaydetmek.
 Alarm Sistemi: Gelen verilere göre kritik durumları belirleyip, alarm sistemi üzerinden kullanıcıyı anında uyarmak.
-![NEBULA-S Uydu Görseli](assets/arayuz1.png)
-
 
 Kullanılan Teknolojiler
 
