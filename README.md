@@ -8,6 +8,10 @@ Veri Görselleştirme: Sıcaklık, nem, hız, basınç, yükseklik, pil gerilimi
 Gerçek Zamanlı Kamera Görüntüsü: Uydudan gelen canlı kamera görüntüsünü arayüzde göstermek ve kayıt tuşuna basarak görüntüyü kaydetmek.
 Alarm Sistemi: Gelen verilere göre kritik durumları belirleyip, alarm sistemi üzerinden kullanıcıyı anında uyarmak.
 
+![NEBULA-S Uydu Görseli](C:\Users\colak\Desktop\GUIWPF\NebulaGUI\arayuz1.png)
+![NEBULA-S Uydu Görseli](C:\Users\colak\Desktop\GUIWPF\NebulaGUI\arayuz2.png)
+
+
 Kullanılan Teknolojiler
 
 .NET Framework: Uygulama geliştirme için temel platform.
