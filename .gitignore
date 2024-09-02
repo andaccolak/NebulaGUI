@@ -13,7 +13,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 *
-!README.md
+*      # Tüm dosyaları göz ardı et
+!README.md  # README.md dosyasını dahil et
+!assets/    # assets dizinini dahil et
 # Mono auto generated files
 mono_crash.*
 
